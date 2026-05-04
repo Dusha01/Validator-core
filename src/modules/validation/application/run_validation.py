@@ -3,7 +3,6 @@ import asyncio
 import json
 from datetime import datetime, timezone
 from typing import TYPE_CHECKING
-import yaml
 
 from src.core.database import session_scope
 from src.modules.ai.openai_compatible import LlmHttpError, OpenAiCompatibleClient
@@ -15,6 +14,8 @@ from src.modules.validation.domain.validation_result import (
     SavedModerationReport,
 )
 from src.modules.validation.infrastructure.prompt_loader import load_prompt_rules_bundle
+from src.modules.validation.infrastructure.rules_pipeline import RulesPipeline
+
 
 if TYPE_CHECKING:
     from src.core.settings import Settings
@@ -27,31 +28,12 @@ def _new_report_id(now: datetime | None = None) -> str:
     return f"project-inspect-{ts[:-3]}Z"
 
 
-def _build_system_message(*, system_prompt: str, rules_yaml: str, output_contract: str) -> str:
-    return "\n\n".join(
-        [
-            system_prompt.strip(),
-            "Правила validation_rules (YAML):\n" + rules_yaml.strip(),
-            "Контракт одного ответа модели (output_contract):\n" + output_contract.strip(),
-        ]
-    )
-
-
 async def run_full_validation(settings: Settings, trigger: str = "manual") -> str:
     if not (settings.llm_api_key or "").strip():
         raise RuntimeError("LLM_API_KEY is required for validation")
 
     bundle = load_prompt_rules_bundle(settings.prompt_file_path, settings.rules_file_path)
-    rules_yaml = yaml.safe_dump(
-        {"validation_rules": [r.model_dump() for r in bundle.rules.validation_rules]},
-        allow_unicode=True,
-        sort_keys=False,
-    )
-    system = _build_system_message(
-        system_prompt=bundle.prompt.system_prompt,
-        rules_yaml=rules_yaml,
-        output_contract=bundle.rules.output_contract,
-    )
+    system = RulesPipeline.default().build(bundle)
 
     async with session_scope(settings) as session:
         projects = await fetch_all_project_rows(session, settings)

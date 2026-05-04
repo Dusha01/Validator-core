@@ -1,15 +1,14 @@
 from __future__ import annotations
-
 from contextlib import asynccontextmanager
 import sys
 from pathlib import Path
 from typing import TYPE_CHECKING
-
 from fastapi import FastAPI
 
 from src.api.routes import health, reports
 from src.core.database import dispose_engine
 from src.core.settings import get_settings
+
 
 if TYPE_CHECKING:
     from collections.abc import AsyncIterator

@@ -1,70 +1,73 @@
-# Validator-core: правила модерации контента проектов.
+# Validator-core: moderation rules for project content.
 
 version: 1
 
-# severity: block — явный запрет; warning — риск/серая зона; info — справочно
+# severity: block - explicit prohibition; warning - risk/gray area; info - reference only
 validation_rules:
   - id: content_format_neutral
-    title: "Формат описания не влияет на вердикт"
+    title: "Description format does not affect the verdict"
     criterion: |
-      Описание проекта может быть в Markdown (заголовки, списки, блоки кода, таблицы) или в обычном тексте без разметки.
-      Оценивай только смысл и намерение текста, а не наличие символов #, *, ` или разметки.
-      Код в примерах, цитаты и техническая документация сами по себе не являются нарушением, если не инструктируют к противоправным действиям.
+      The project description may be in Markdown (headings, lists, code blocks, tables) or plain text without markup.
+      Evaluate only the meaning and intent of the text, not the presence of #, *, `, or formatting.
+      Code samples, quotes, and technical documentation are not violations by themselves unless they instruct illegal actions.
 
   - id: illegal_hacking_unauthorized
-    title: "Несанкционированный взлом и злоупотребление доступом"
+    title: "Unauthorized hacking and abuse of access"
     criterion: |
-      Недопустимы призывы, пошаговые инструкции или сервисы для: взлома чужих аккаунтов, обхода аутентификации без права,
-      кражи данных, DDoS против третьих лиц, эксплуатации уязвимостей без контекста ответственного раскрытия/разрешения,
-      распространения стиллеров, RAT, криптомайнеров на чужие машины без согласия. Легитимные инструменты администратора
-      или пентеста с явными предупреждениями о законности и разрешениях — не автоматически invalid; при сомнении используй disputed.
+      Calls to action, step-by-step instructions, or services for the following are not allowed: hacking other people's accounts,
+      bypassing authentication without authorization, data theft, DDoS against third parties, vulnerability exploitation
+      without a responsible disclosure/permission context, distribution of stealers, RATs, or cryptominers on other machines
+      without consent. Legitimate admin or pentest tools with clear legal and permission warnings are not automatically invalid;
+      use disputed when unsure.
 
   - id: scam_fraud_deception
-    title: "Скам, мошенничество, обман"
+    title: "Scam, fraud, deception"
     criterion: |
-      Недопустимы проекты, продвигающие финансовые пирамиды, фишинг, поддельные платежи, накрутку отзывов/кликов для обмана,
-      имитацию банков или госорганов в целях обмана, сбор персональных данных под ложным предлогом.
+      Projects promoting pyramid schemes, phishing, fake payments, manipulated reviews/clicks for deception,
+      impersonation of banks or government entities for fraud, or collection of personal data under false pretenses are not allowed.
 
   - id: harmful_illegal_goods_services
-    title: "Запрещённые товары, услуги и тяжёлые правонарушения"
+    title: "Prohibited goods, services, and severe crimes"
     criterion: |
-      Недопустимы предложения или инструкции по: торговле людьми, сексуальному насилию над несовершеннолетними (CSAM),
-      терроризму и экстремистской деятельности, незаконному обороту оружия/наркотиков по найму, заказным убийствам и аналогу.
-      При упоминании в образовательно-историческом контексте без инструкций — осторожно, при сомнении disputed.
+      Offers or instructions related to human trafficking, child sexual abuse material (CSAM),
+      terrorism or extremist activity, illegal trafficking of weapons/drugs for hire, contract killing, and similar severe crimes
+      are not allowed. Mentions in educational or historical context without instructions should be handled carefully;
+      use disputed when uncertain.
 
   - id: hate_discrimination
-    title: "Разжигание ненависти и дискриминация"
+    title: "Hate and discrimination"
     criterion: |
-      Недопустимы призывы к насилию или унижению по признаку расы, национальности, религии, пола, ориентации, инвалидности
-      и аналогичным признакам; организация преследований.
+      Calls for violence or humiliation based on race, nationality, religion, sex, orientation, disability,
+      or similar protected traits are not allowed, including organizing harassment campaigns.
 
   - id: moral_gratuitous_harm
-    title: "Грубое нарушение моральных норм (бессмысленная жестокость, эксплуатация)"
+    title: "Severe moral harm (gratuitous cruelty, exploitation)"
     criterion: |
-      Недопустимы материалы, прославляющие или инструктирующие жестокое обращение с людьми или животными ради развлечения,
-      шантаж с угрозами реального вреда, распространение интимных материалов без согласия субъекта (revenge porn).
+      Content glorifying or instructing cruel treatment of people or animals for entertainment is not allowed,
+      nor blackmail with threats of real harm, or non-consensual distribution of intimate materials (revenge porn).
 
   - id: ambiguity_educational_security_tools
-    title: "Пограничные легитимные темы (сети, безопасность)"
+    title: "Borderline legitimate topics (networks, security)"
     criterion: |
-      Инструменты вроде сканеров портов, учебных лабораторий по безопасности, документации по Nmap и т.п. часто допустимы,
-      если акцент на законном использовании, разрешениях и этике. Если текст одновременно поощряет атаки на чужую инфраструктуру
-      без упора на легальность — invalid по правилу illegal_hacking_unauthorized. Если только техническое описание без явных
-      нарушений, но контекст двусмысленный — disputed, а не invalid.
+      Tools such as port scanners, educational security labs, Nmap documentation, and similar content are often acceptable
+      when focused on legal use, permissions, and ethics. If the text also encourages attacks against third-party infrastructure
+      without emphasizing legality, mark invalid under illegal_hacking_unauthorized. If it is only a technical description
+      without explicit violations but with ambiguous context, mark disputed rather than invalid.
 
   - id: metadata_consistency_light
-    title: "Согласованность полей (мягкая проверка)"
+    title: "Field consistency (light check)"
     criterion: |
-      Краткое название/теги и длинное описание не должны вводить в заблуждение о сути проекта (например, название «игра для детей»
-      при описании взрослого казино). Несущественные расхождения — не invalid; при явном обмане пользователя — invalid или disputed.
+      Short name/tags and long description should not mislead users about the actual nature of the project
+      (for example, title says "game for kids" while description is an adult casino). Minor inconsistencies are not invalid;
+      clear user deception should be invalid or disputed.
 
 
-# Один ответ модели на один проект (сервис сам собирает итоговый файл из многих таких шагов).
+# One model response per project (the service aggregates the final report file from many such steps).
 output_contract: |
-  Один JSON-объект с полями:
-  - outcome: строка, одно из значений: "ok" | "block" | "warning" | "info"
-  - summary: строка (для ok — пустая строка)
-  - reason_codes: массив строк (id правил из validation_rules; для ok — пустой массив)
+  One JSON object with fields:
+  - outcome: string, one of: "ok" | "block" | "warning" | "info"
+  - summary: string (for ok - empty string)
+  - reason_codes: array of strings (rule ids from validation_rules; for ok - empty array)
 
-  Итоговый файл отчёта на диске формирует сервис: в нём только списки block, warning, info
-  (объекты с project_id, summary, reason_codes). Проекты с outcome "ok" в отчёт не записываются.
+  The service forms the final report file on disk: it contains only block, warning, and info lists
+  (objects with project_id, summary, reason_codes). Projects with outcome "ok" are not written to the report.

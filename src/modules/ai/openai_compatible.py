@@ -1,10 +1,8 @@
 from __future__ import annotations
-
 import asyncio
 import json
 from typing import Any
 from urllib.parse import urlsplit
-
 import httpx
 
 from src.core.settings import Settings

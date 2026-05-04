@@ -1,9 +1,7 @@
 from __future__ import annotations
-
 from datetime import date, datetime
 from decimal import Decimal
 from typing import Any
-
 from sqlalchemy import column, select, table
 from sqlalchemy.ext.asyncio import AsyncSession
 

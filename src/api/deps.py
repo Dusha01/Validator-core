@@ -1,7 +1,5 @@
 from __future__ import annotations
-
 from typing import Annotated
-
 from fastapi import Depends, Header, HTTPException, status
 
 from src.core.settings import Settings, get_settings

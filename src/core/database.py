@@ -1,13 +1,10 @@
-"""Async SQLAlchemy engine and session (wire-up in later tasks)."""
-
 from __future__ import annotations
-
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
-
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine
 
 from src.core.settings import Settings, get_settings
+
 
 _engine: AsyncEngine | None = None
 _session_factory: async_sessionmaker[AsyncSession] | None = None

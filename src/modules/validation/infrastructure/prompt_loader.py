@@ -1,13 +1,9 @@
-"""Загрузка и валидация public/promt.yml и public/rules.yml."""
-
 from __future__ import annotations
-
 from pathlib import Path
-
 import yaml
 from pydantic import ValidationError
 
-from modules.validation.infrastructure.prompt_schema import (
+from src.modules.validation.infrastructure.prompt_schema import (
     PromptDocument,
     PromptRulesBundle,
     RulesDocument,

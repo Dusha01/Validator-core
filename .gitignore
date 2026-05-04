@@ -219,3 +219,5 @@ __marimo__/
 
 # Generated validation reports (keep directory via .gitkeep)
 reports/*.json
+
+.idea

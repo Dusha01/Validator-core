@@ -1,5 +1,3 @@
-"""Схемы YAML: public/promt.yml (промпт) и public/rules.yml (правила)."""
-
 from __future__ import annotations
 
 from pydantic import BaseModel, Field, field_validator
@@ -27,15 +25,11 @@ class ValidationRule(BaseModel):
 
 
 class PromptDocument(BaseModel):
-    """Только public/promt.yml."""
-
     version: int = 1
     system_prompt: str = Field(..., min_length=1)
 
 
 class RulesDocument(BaseModel):
-    """Только public/rules.yml."""
-
     version: int = 1
     validation_rules: list[ValidationRule] = Field(default_factory=list)
     output_contract: str = Field(
@@ -45,7 +39,5 @@ class RulesDocument(BaseModel):
 
 
 class PromptRulesBundle(BaseModel):
-    """Собранные промпт + правила для одного прогона валидации."""
-
     prompt: PromptDocument
     rules: RulesDocument

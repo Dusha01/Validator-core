@@ -4,7 +4,7 @@ from typing import Annotated
 
 from fastapi import Depends, Header, HTTPException, status
 
-from core.settings import Settings, get_settings
+from src.core.settings import Settings, get_settings
 
 
 def settings_dep() -> Settings:
